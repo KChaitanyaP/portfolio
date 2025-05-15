@@ -1,7 +1,8 @@
-# Flask Web App Starter
+## Getting Started on local
 
-A Flask starter template as per [these docs](https://flask.palletsprojects.com/en/3.0.x/quickstart/#a-minimal-application).
+Read the [docs/initial_setup.md] for instructions.
 
-## Getting Started
+## Getting Started on cloud deployment
 
-Previews should run automatically when starting a workspace.
+> TODO
+> 

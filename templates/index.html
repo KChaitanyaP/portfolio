@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -13,14 +14,21 @@
 
   <body>
     <header>
-      <h1>Project Management</h1>
+      <h1 class="main-title">Project Dashboard</h1>
+      <div class="header-action">
+        <button class="add-project-button" onclick="openFormModal()">➕ Add Project</button>
+      </div>
     </header>
 
     <div id="project-cards-container">
       {% for project in projects %}
-        <div class="project-card {{ project.color }}" onclick="openModal('{{ project.title }}', '{{ project.description }}')">
+        <div class="project-card {{ project.color | default('default') }}" onclick="openModal('{{ project.title }}', '{{ project.description }}')">
           <h2>{{ project.title }}</h2>
-          <p>Click to learn more</p>
+          <p>{{ project.description }}</p>
+          <button class="edit-button"
+                  onclick="event.stopPropagation(); openEditModal('{{ project.title }}', '{{ project.description }}', '{{ project.color }}')">
+            ✏️ Edit
+          </button>
         </div>
       {% endfor %}
     </div>
@@ -31,6 +39,43 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 id="modal-title"></h2>
         <p id="modal-description"></p>
+      </div>
+    </div>
+
+    <!-- Add Project Modal -->
+    <div id="form-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeFormModal()">&times;</span>
+        <h2>Add New Project</h2>
+        <form action="/add_project" method="post" class="add-project-form">
+          <input type="text" name="title" placeholder="Project Title" required>
+          <input type="text" name="description" placeholder="Project Description" required>
+          <select name="color" required>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="purple">Purple</option>
+          </select>
+          <button type="submit">Add Project</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Project Modal -->
+    <div id="edit-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h2>Edit Project</h2>
+        <form action="/edit" method="post" class="add-project-form">
+          <input type="hidden" name="original_title" id="edit-original-title">
+          <input type="text" name="title" id="edit-title" placeholder="Project Title" required>
+          <input type="text" name="description" id="edit-description" placeholder="Project Description" required>
+          <select name="color" id="edit-color" required>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="purple">Purple</option>
+          </select>
+          <button type="submit">Save Changes</button>
+        </form>
       </div>
     </div>
 

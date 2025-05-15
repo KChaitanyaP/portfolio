@@ -87,3 +87,27 @@ flask-drive-reader@your-project-id.iam.gserviceaccount.com
 
 Now the service account has permission to read the file securely.
 
+### ✅ Step 4: Run the app locally
+```commandline
+python main.py
+```
+
+
+# 📄 Integrating Private Google Drive CSV with Flask Using the Google Drive API
+
+This guide provides step-by-step instructions to access a **private `projects.csv` file from Google Drive** in a **Flask web app** using the **Google Drive API** and a **service account**.
+
+---
+
+### ℹ️ API Scope Note (Important)
+
+To read and write the file with the Drive API:
+
+```python
+SCOPES = ['https://www.googleapis.com/auth/drive']
+```
+
+> Using `'drive.readonly'` only works for reading and will block updates.
+> `'drive.file'` is more restrictive, but it only works for files created by your app. For shared files, use the broader `'drive'` scope.
+
+---

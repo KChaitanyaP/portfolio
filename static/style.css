@@ -8,11 +8,6 @@ body {
 }
 
 /* Title styles */
-header {
-    text-align: center;
-    padding: 40px 0 10px 0;
-}
-
 header h1 {
     margin: 0;
     font-size: 3rem;
@@ -144,3 +139,179 @@ header h1 {
         font-size: 1.5rem;
     }
 }
+
+
+.add-project-form {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 600px;
+  background: #2e2e3a;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 204, 112, 0.2);
+}
+
+.add-project-form h2 {
+  color: #ffcc70;
+  text-align: center;
+}
+
+.add-project-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-project-form input,
+.add-project-form select,
+.add-project-form button {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+.add-project-form button {
+  background-color: #ffcc70;
+  color: #1e1e2f;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-project-form button:hover {
+  background-color: #e6b85e;
+}
+
+/* Reuse existing modal styles + extra spacing for form */
+.add-project-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-project-form input,
+.add-project-form select,
+.add-project-form button {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+}
+
+.add-project-form button {
+    background-color: #ffcc70;
+    color: #1e1e2f;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-project-form button:hover {
+    background-color: #e6b85e;
+}
+
+.project-card.default {
+  background: linear-gradient(135deg, #2e2e3a, #3a3a4d);
+}
+
+.project-card.blue {
+  background: linear-gradient(135deg, #3a4b70, #4e5e90);
+}
+
+.project-card.green {
+  background: linear-gradient(135deg, #2e704b, #3e9060);
+}
+
+.project-card.purple {
+  background: linear-gradient(135deg, #5c3a70, #7e4e90);
+}
+
+.add-project-button {
+  background-color: #ffcc70;
+  color: #1e1e2f;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-project-button:hover {
+  background-color: #e6b85e;
+}
+
+header {
+  text-align: center;
+  padding: 40px 0 10px 0;
+  position: relative;
+}
+
+.header-action {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 90%;
+  margin: 10px auto 0;
+}
+
+.add-project-button {
+  background-color: #ffcc70;
+  color: #1e1e2f;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-project-button:hover {
+  background-color: #e6b85e;
+}
+
+.main-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.8rem;
+    font-weight: 800;
+    text-align: center;
+    background: linear-gradient(90deg, #ffcc70, #f675a8, #8c52ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    margin: 0 auto;
+    animation: fadeInDrop 1s ease both;
+    transition: text-shadow 0.4s ease;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+/* Glow on hover */
+.main-title:hover {
+    text-shadow: 0 0 10px rgba(255, 204, 112, 0.8),
+                 0 0 20px rgba(246, 117, 168, 0.6),
+                 0 0 30px rgba(140, 82, 255, 0.4);
+}
+
+/* Responsive font size */
+@media screen and (max-width: 768px) {
+    .main-title {
+        font-size: 2.8rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-title {
+        font-size: 2rem;
+    }
+}
+
+/* Optional drop animation */
+@keyframes fadeInDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
