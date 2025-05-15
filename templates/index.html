@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+    </style>
     <title>Project Management Dashboard</title>
   </head>
 
   <body>
+    <header>
+      <h1>Project Management</h1>
+    </header>
+
     <div id="project-cards-container">
       <div class="project-card">
         <h2>Automated Chants Counter</h2>
