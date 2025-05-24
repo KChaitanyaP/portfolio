@@ -6,7 +6,7 @@ from googleapiclient.http import MediaIoBaseDownload
 import os
 import csv
 from flask import request, redirect, url_for
-from googleapiclient.http import MediaFileUpload, MediaIoBaseUpload
+from googleapiclient.http import MediaIoBaseUpload
 import io
 
 app = Flask(__name__)
@@ -37,7 +37,8 @@ def get_project_data():
 
     fh.seek(0)
     df = pd.read_csv(fh)
-    # print("df: ", df)
+    print("df: ")
+    print(df)
     return df.to_dict(orient='records')
 
 @app.route('/')
@@ -49,6 +50,7 @@ def index():
 def add_project():
     title = request.form['title']
     description = request.form['description']
+    plan = request.form['plan']
     color = request.form['color']
 
     # Step 1: Download the file
@@ -64,7 +66,7 @@ def add_project():
     lines = fh.read().decode('utf-8').splitlines()
     reader = csv.reader(lines)
     rows = list(reader)
-    rows.append([title, description, color])
+    rows.append([title, description, color, plan])
 
     # Step 3: Write to temp file
     string_buffer = io.StringIO()
@@ -83,6 +85,7 @@ def edit_project():
     original_title = request.form['original_title']
     new_title = request.form['title']
     new_description = request.form['description']
+    new_plan = request.form['plan']
     new_color = request.form['color']
 
     # Step 1: Download existing file
@@ -97,12 +100,13 @@ def edit_project():
     reader = csv.reader(lines)
     rows = list(reader)
 
+    print([new_title, new_description, new_color, new_plan])
     # Step 2: Edit the matching project
     headers = rows[0]
     updated_rows = [headers]
     for row in rows[1:]:
         if row[0] == original_title:
-            updated_rows.append([new_title, new_description, new_color])
+            updated_rows.append([new_title, new_description, new_color, new_plan])
         else:
             updated_rows.append(row)
 
@@ -119,7 +123,7 @@ def edit_project():
     return redirect(url_for('index'))
 
 def main():
-    app.run(port=8000, debug=True)
+    app.run(host="0.0.0.0", port=8000, debug=True)
 
 if __name__ == "__main__":
     main()

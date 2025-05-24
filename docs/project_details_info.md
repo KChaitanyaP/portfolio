@@ -1,0 +1,1 @@
+Inside each project modal, lets showcase the 'Full details' which is a markdown style information containing the objective, plan, github link

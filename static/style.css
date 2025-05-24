@@ -267,51 +267,21 @@ header {
   background-color: #e6b85e;
 }
 
-.main-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 3.8rem;
-    font-weight: 800;
-    text-align: center;
-    background: linear-gradient(90deg, #ffcc70, #f675a8, #8c52ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    margin: 0 auto;
-    animation: fadeInDrop 1s ease both;
-    transition: text-shadow 0.4s ease;
-    letter-spacing: 1px;
-    line-height: 1.2;
+.modal-text {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #e0e0e0;
+  line-height: 1.5;
+  word-wrap: break-word;
 }
 
-/* Glow on hover */
-.main-title:hover {
-    text-shadow: 0 0 10px rgba(255, 204, 112, 0.8),
-                 0 0 20px rgba(246, 117, 168, 0.6),
-                 0 0 30px rgba(140, 82, 255, 0.4);
+.modal-text ul {
+  padding-left: 20px;
+  margin: 10px 0;
 }
 
-/* Responsive font size */
-@media screen and (max-width: 768px) {
-    .main-title {
-        font-size: 2.8rem;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .main-title {
-        font-size: 2rem;
-    }
-}
-
-/* Optional drop animation */
-@keyframes fadeInDrop {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+textarea {
+  min-height: 80px;
+  resize: vertical;
 }
 

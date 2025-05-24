@@ -22,25 +22,32 @@
 
     <div id="project-cards-container">
       {% for project in projects %}
-        <div class="project-card {{ project.color | default('default') }}" onclick="openModal('{{ project.title }}', '{{ project.description }}')">
+        <div class="project-card {{ project.color | default('default') }}"
+             onclick="openModal(
+                 '{{ project.title }}',
+                 `{{ project.description | e | replace('`', '\\`') }}`,
+                 `{{ project.plan | default('') | e | replace('`', '\\`') }}`
+             )">
           <h2>{{ project.title }}</h2>
           <p>{{ project.description }}</p>
           <button class="edit-button"
-                  onclick="event.stopPropagation(); openEditModal('{{ project.title }}', '{{ project.description }}', '{{ project.color }}')">
+                  onclick="event.stopPropagation(); openEditModal('{{ project.title }}', '{{ project.description }}', '{{ project.color }}', '{{ project.plan }}')">
             ✏️ Edit
           </button>
         </div>
       {% endfor %}
     </div>
 
-    <!-- Modal HTML here -->
+    <!-- Show Project Modal -->
     <div id="modal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 id="modal-title"></h2>
-        <p id="modal-description"></p>
+        <div id="modal-description" class="modal-text"></div>
+        <div id="modal-plan" class="modal-text"></div>
       </div>
     </div>
+
 
     <!-- Add Project Modal -->
     <div id="form-modal" class="modal">
@@ -55,6 +62,7 @@
             <option value="green">Green</option>
             <option value="purple">Purple</option>
           </select>
+          <input type="text" name="plan" placeholder="Project Plan" required>
           <button type="submit">Add Project</button>
         </form>
       </div>
@@ -68,7 +76,8 @@
         <form action="/edit" method="post" class="add-project-form">
           <input type="hidden" name="original_title" id="edit-original-title">
           <input type="text" name="title" id="edit-title" placeholder="Project Title" required>
-          <input type="text" name="description" id="edit-description" placeholder="Project Description" required>
+          <textarea name="description" id="edit-description" placeholder="Project Description" required></textarea>
+          <textarea name="plan" id="edit-plan" placeholder="Plan (markdown supported)"></textarea>
           <select name="color" id="edit-color" required>
             <option value="blue">Blue</option>
             <option value="green">Green</option>
