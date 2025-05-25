@@ -36,7 +36,12 @@
           <h2>{{ project.title }}</h2>
           <p>{{ project.description }}</p>
           <button class="edit-button"
-                  onclick="event.stopPropagation(); openEditModal('{{ project.title }}', '{{ project.description }}', '{{ project.color }}', '{{ project.plan }}')">
+              onclick="event.stopPropagation(); openEditModal(
+                  `{{ project.title | e | replace('`', '\\`') }}`,
+                  `{{ project.description | e | replace('`', '\\`') }}`,
+                  `{{ project.color }}`,
+                  `{{ project.plan | default('') | e | replace('`', '\\`') }}`
+              )">
             ✏️ Edit
           </button>
         </div>
