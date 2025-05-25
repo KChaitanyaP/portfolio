@@ -64,6 +64,12 @@ def get_project_data():
     print(df)
     return df.to_dict(orient='records')
 
+
+@app.route('/healthz')
+def healthz():
+    return {"status": "ok"}, 200
+
+
 @app.route('/')
 @login_required
 def index():
