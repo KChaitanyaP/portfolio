@@ -291,3 +291,20 @@ textarea {
   color: #ffcc70;
   padding: 10px;
 }
+
+.edit-button {
+  margin-top: 10px;
+  background-color: #ffcc70;
+  color: #1e1e2f;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2;
+  position: relative;
+}
+
+.edit-button:hover {
+  background-color: #e6b85e;
+}
