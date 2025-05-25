@@ -10,6 +10,25 @@ from googleapiclient.http import MediaIoBaseUpload
 import io
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-key")
+
+from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+class User(UserMixin):
+    def __init__(self, email):
+        self.id = email
+
+@login_manager.user_loader
+def load_user(email):
+    df = read_users()
+    if email in df['email'].values:
+        return User(email)
+    return None
 
 # Load your service account credentials
 SERVICE_ACCOUNT_FILE = os.environ.get("SERVICE_ACC_KEY_FILE_LOCATION", None)
@@ -27,6 +46,10 @@ FILE_ID = os.environ.get("GOOGLE_DRIVE_PROJECTS_CSV_FILE_ID", None)
 if FILE_ID is None:
     raise ValueError("GOOGLE_DRIVE_PROJECTS_CSV_FILE_ID not present!")
 
+USERS_FILE_ID = os.environ.get("GOOGLE_DRIVE_USERS_CSV_FILE_ID", None)
+if USERS_FILE_ID is None:
+    raise ValueError("GOOGLE_DRIVE_USERS_FILE_ID not present!")
+
 def get_project_data():
     request = drive_service.files().get_media(fileId=FILE_ID)
     fh = io.BytesIO()
@@ -42,6 +65,7 @@ def get_project_data():
     return df.to_dict(orient='records')
 
 @app.route('/')
+@login_required
 def index():
     projects = get_project_data()
     return render_template('index.html', projects=projects)
@@ -122,8 +146,64 @@ def edit_project():
 
     return redirect(url_for('index'))
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        df = read_users()
+
+        user_row = df[df['email'] == email]
+        if not user_row.empty and check_password_hash(user_row.iloc[0]['password'], password):
+            login_user(User(email))
+            return redirect(url_for('index'))
+        return render_template('login.html', error='Invalid credentials')
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        df = read_users()
+
+        if email in df['email'].values:
+            return render_template('register.html', error='User already exists.')
+
+        new_user = pd.DataFrame([[email, generate_password_hash(password)]], columns=['email', 'password'])
+        df = pd.concat([df, new_user], ignore_index=True)
+        write_users(df)
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+@app.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+def read_users():
+    request = drive_service.files().get_media(fileId=USERS_FILE_ID)
+    fh = io.BytesIO()
+    downloader = MediaIoBaseDownload(fh, request)
+    done = False
+    while not done:
+        status, done = downloader.next_chunk()
+    fh.seek(0)
+    return pd.read_csv(fh)
+
+def write_users(df):
+    string_buffer = io.StringIO()
+    df.to_csv(string_buffer, index=False)
+    byte_buffer = io.BytesIO(string_buffer.getvalue().encode('utf-8'))
+    media = MediaIoBaseUpload(byte_buffer, mimetype='text/csv', resumable=True)
+    drive_service.files().update(fileId=USERS_FILE_ID, media_body=media).execute()
+
+
 def main():
     app.run(host="0.0.0.0", port=8000, debug=True)
+
 
 if __name__ == "__main__":
     main()
