@@ -285,3 +285,9 @@ textarea {
   resize: vertical;
 }
 
+.user-info {
+  margin-right: auto;
+  font-weight: bold;
+  color: #ffcc70;
+  padding: 10px;
+}

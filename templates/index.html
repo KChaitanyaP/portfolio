@@ -14,15 +14,16 @@
 
   <body>
     <header>
-    <h1 class="main-title">Project Dashboard</h1>
+      <h1 class="main-title">Project Dashboard</h1>
       <div class="header-action">
+        <div class="user-info">👤 {{ current_user.id }}
+        </div>
         <form action="/logout" method="post" style="margin-right: 10px;">
           <button class="add-project-button" type="submit">🚪 Logout</button>
         </form>
         <button class="add-project-button" onclick="openFormModal()">➕ Add Project</button>
       </div>
-  </header>
-
+    </header>
 
     <div id="project-cards-container">
       {% for project in projects %}
