@@ -4,7 +4,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload, MediaIoBaseUpload
 import os
-import csv
+from flask import jsonify
 import io
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -192,8 +192,20 @@ def edit_project():
 def healthz():
     return "ok", 200
 
+@app.route('/get-alarm-sounds')
+def get_alarm_sounds():
+    alarm_folder = os.path.join(app.static_folder, 'alarm_sounds')
+    files = [f for f in os.listdir(alarm_folder) if f.endswith('.mp3')]
+    return jsonify(files)
+
+
 def main():
     app.run(host="0.0.0.0", port=8000, debug=True)
+
+
+@app.route('/today')
+def today():
+    return render_template('today.html')
 
 
 if __name__ == "__main__":

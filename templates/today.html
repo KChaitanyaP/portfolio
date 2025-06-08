@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Today</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header>
+    <h1>Today</h1>
+  </header>
+
+     <!-- timer section remains same, just remove 'Save Work Item' button -->
+    <section id="timer-section">
+      <h2>Work Timer</h2>
+      <div id="timer-container">
+        <input type="text" id="project-name" placeholder="Project Name (optional)" />
+        <input type="number" id="target-hours" placeholder="HH" min="0" />
+        <input type="number" id="target-minutes" placeholder="MM" min="0" />
+        <button id="timer-button">Start</button>
+        <button id="end-button">End</button>
+        <button id="reset-button">Reset</button>
+        <span id="timer-display">00:00:00</span>
+      </div>
+    </section>
+
+    <section id="history-section">
+      <h3>Today’s Sessions</h3>
+      <table id="session-table">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Duration</th>
+            <th>Start Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- rows will be inserted by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <section id="reset-section" style="margin-top: 20px;">
+      <button id="clear-sessions-button">Reset All Sessions</button>
+    </section>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

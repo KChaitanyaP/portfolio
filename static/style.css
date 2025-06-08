@@ -308,3 +308,117 @@ textarea {
 .edit-button:hover {
   background-color: #e6b85e;
 }
+
+#timer-container input {
+  padding: 0.3em 0.5em;
+  font-size: 1em;
+}
+
+#timer-button, #save-work-item {
+  padding: 0.4em 0.8em;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+#timer-display {
+  font-family: monospace;
+  font-size: 1.2em;
+  min-width: 60px;
+  text-align: center;
+}
+
+.goto-today-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.goto-today-btn:hover {
+  background-color: #45a049;
+}
+
+/* Improve table appearance */
+#session-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#session-table th, #session-table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+#session-table th {
+  background-color: #f8f8f8;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Timer input styling */
+#timer-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+#timer-container input[type="text"],
+#timer-container input[type="number"],
+#timer-container button {
+  padding: 10px;
+  font-size: 1em;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  #timer-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #session-table th, #session-table td {
+    font-size: 0.9em;
+    padding: 6px 8px;
+  }
+
+  #timer-display {
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+}
+
+#end-button {
+  background-color: #e67e22;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#end-button:hover {
+  background-color: #cf711f;
+}
+
+#clear-sessions-button {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#clear-sessions-button:hover {
+  background-color: #a93226;
+}
+
