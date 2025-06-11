@@ -10,7 +10,9 @@
   <header>
     <h1>Today</h1>
   </header>
-
+    <a href="{{ url_for('index') }}">
+      <button id="back-home-btn">Back to Home</button>
+    </a>
      <!-- timer section remains same, just remove 'Save Work Item' button -->
     <section id="timer-section">
       <h2>Work Timer</h2>
@@ -22,6 +24,9 @@
         <button id="end-button">End</button>
         <button id="reset-button">Reset</button>
         <span id="timer-display">00:00:00</span>
+        <div id="restore-message" style="display: none; margin-top: 10px; font-size: 0.9em; color: #27ae60;">
+          Restored from previous session ⏳
+        </div>
       </div>
     </section>
 

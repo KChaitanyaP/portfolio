@@ -114,6 +114,7 @@ function resetTimer() {
   document.getElementById('target-hours').value = '';
   document.getElementById('target-minutes').value = '';
   document.getElementById('timer-button').textContent = 'Start';
+  localStorage.removeItem('activeTimer');
 }
 
 function startTimer() {
@@ -127,6 +128,15 @@ function startTimer() {
   isRunning = true;
   document.getElementById('timer-button').textContent = 'Pause';
 
+   // 💾 Save running timer state to localStorage
+  const project = document.getElementById('project-name').value || '';
+  localStorage.setItem('activeTimer', JSON.stringify({
+    startTime: sessionStartTime.getTime(), // in ms
+    targetTime: targetSeconds,
+    project,
+    status: 'running',
+    elapsedSeconds // in case it was paused and resumed
+  }));
   timerInterval = setInterval(() => {
     elapsedSeconds++;
     document.getElementById('timer-display').textContent = formatTime(elapsedSeconds);
@@ -189,6 +199,49 @@ function showSessionTable() {
     });
 }
 
+function restoreActiveTimer() {
+  const active = JSON.parse(localStorage.getItem('activeTimer'));
+  if (!active || active.status !== 'running') return;
+
+  const now = Date.now();
+  const start = active.startTime;
+  const elapsed = Math.floor((now - start) / 1000);
+  elapsedSeconds = active.elapsedSeconds ? active.elapsedSeconds + elapsed : elapsed;
+  targetSeconds = active.targetTime;
+  sessionStartTime = new Date(start);
+  isRunning = true;
+
+  document.getElementById('project-name').value = active.project || '';
+  document.getElementById('timer-button').textContent = 'Pause';
+  document.getElementById('timer-display').textContent = formatTime(elapsedSeconds);
+
+  timerInterval = setInterval(() => {
+    elapsedSeconds++;
+    document.getElementById('timer-display').textContent = formatTime(elapsedSeconds);
+
+    if (targetSeconds && elapsedSeconds >= targetSeconds) {
+      playAlarm();
+      clearInterval(timerInterval);
+      timerInterval = null;
+      isRunning = false;
+      saveSession();
+      resetTimer(); // clear everything after alarm
+    }
+  }, 1000);
+
+  // Show restore message
+    const msg = document.getElementById('restore-message');
+    if (msg) {
+      msg.style.display = 'block';
+      // Optional: hide after 5 seconds
+      setTimeout(() => {
+        msg.style.display = 'none';
+      }, 5000);
+    }
+
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
   loadAlarmSounds();
   document.getElementById('timer-button')?.addEventListener('click', () => {
@@ -200,11 +253,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (confirm("Are you sure you want to reset all sessions? This cannot be undone.")) {
     localStorage.removeItem('workSessions');
     showSessionTable();
-  }
-});
-
-  showSessionTable();
-
+    }
+   });
+ restoreActiveTimer(); // ✅ Restore active timer if present
+ showSessionTable();
 });
 
 function endTimer() {
